@@ -36,6 +36,7 @@ typedef struct _main_ui
 static void list_fonts(MainUi *);
 static void main_ui(MainUi *);
 void table_hdr(char *, char *, char *, MainUi *);
+void set_label(GtkWidget *);
 void show_sample(PangoFontFamily *, const char *, int, MainUi *);
 void set_css();
 void OnQuit(GtkWidget*, gpointer);
@@ -117,34 +118,36 @@ void show_sample(PangoFontFamily * family, const char *family_nm, int row, MainU
     sprintf(s, "%d", row);
 
     lbl_num = gtk_label_new(s);
-    gtk_widget_set_margin_start(lbl_num, 10);
-    gtk_widget_set_margin_end(lbl_num, 10);
-    gtk_widget_set_margin_bottom(lbl_num, 5);
-    gtk_widget_set_halign(lbl_num, GTK_ALIGN_START);
-    gtk_widget_set_valign(lbl_num, GTK_ALIGN_CENTER);
+    set_label(lbl_num);
 
     lbl_font = gtk_label_new(family_nm);
-    gtk_widget_set_margin_start(lbl_font, 10);
-    gtk_widget_set_margin_end(lbl_font, 10);
-    gtk_widget_set_margin_bottom(lbl_font, 5);
-    gtk_widget_set_halign(lbl_font, GTK_ALIGN_START);
-    gtk_widget_set_valign(lbl_font, GTK_ALIGN_CENTER);
+    set_label(lbl_font);
 
     lbl_sample = gtk_label_new(family_nm);
     pf = pango_font_description_from_string ("Sans");
     pango_font_description_set_family (pf, family_nm);
     gtk_widget_override_font (lbl_sample, pf);
-    gtk_widget_set_margin_start(lbl_sample, 10);
-    gtk_widget_set_margin_end(lbl_sample, 10);
-    gtk_widget_set_margin_bottom(lbl_sample, 5);
-    gtk_widget_set_halign(lbl_sample, GTK_ALIGN_START);
-    gtk_widget_set_valign(lbl_sample, GTK_ALIGN_CENTER);
+    set_label(lbl_sample);
 
     gtk_grid_attach (GTK_GRID (m_ui->f_grid), lbl_num, 0, row + 1, 1, 1);
     gtk_grid_attach (GTK_GRID (m_ui->f_grid), lbl_font, 1, row + 1, 1, 1);
     gtk_grid_attach (GTK_GRID (m_ui->f_grid), lbl_sample, 2, row + 1, 1, 1);
 
     pango_font_description_free (pf);
+
+    return;
+}
+
+
+/* Table headings */
+
+void set_label(GtkWidget *lbl)
+{  
+    gtk_widget_set_margin_start(lbl, 10);
+    gtk_widget_set_margin_end(lbl, 10);
+    gtk_widget_set_margin_bottom(lbl, 5);
+    gtk_widget_set_halign(lbl, GTK_ALIGN_START);
+    gtk_widget_set_valign(lbl, GTK_ALIGN_CENTER);
 
     return;
 }
